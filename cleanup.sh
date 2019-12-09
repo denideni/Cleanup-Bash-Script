@@ -1,11 +1,5 @@
 #!/bin/bash
 
-mkdir -p audios
-mkdir -p videos
-mkdir -p documents
-mkdir -p images
-mkdir -p others
-
 fileTypeDeclared=0
 audio=0
 video=0
@@ -20,25 +14,35 @@ while getopts "havdiot:" opt; do
     a)
       audio=1
       fileTypeDeclared=1
+      mkdir -p audios
       ;;
     v)
       video=1
       fileTypeDeclared=1
+      mkdir -p videos
       ;;
     i)
       image=1
       fileTypeDeclared=1
+      mkdir -p images
       ;;
     d)
       docs=1
       fileTypeDeclared=1
+      mkdir -p documents
       ;;
     o)
       other=1
       fileTypeDeclared=1
+      mkdir -p others
       ;;
     t)
-      # ADD INTEGER VALIDATION
+      if ! [[ "${OPTARG}" =~ ^[0-9]+$ ]]
+      then
+        echo "Number of days must be an integer value."
+        exit 1
+      fi
+
       noDays=${OPTARG}
       ;;
     h)
@@ -75,6 +79,14 @@ fi
 
 if [ $fileTypeDeclared -eq 0 ]
 then
+
+  # Create missing directories
+  mkdir -p audios
+  mkdir -p videos
+  mkdir -p documents
+  mkdir -p images
+  mkdir -p others
+
   # Find and move all Audio files to corresponding ./audios folder
   find . -maxdepth 1 ${timeAccessed} -type f -iname "*.mp3" -o -iname "*.ogg" -o -iname "*.m4a" -o -iname "*.wav" -o -iname "*.wma" -o -iname "*.wpl" -o -iname "*.mid" -o -iname "*.midi" -o -iname "*.aif" -o -iname "*.flac" | xargs -I '{}' mv '{}' ./audios/
 
