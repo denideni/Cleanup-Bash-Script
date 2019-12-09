@@ -10,6 +10,5 @@ Usage: cleanup [-a] [-v] [-d] [-i] [-o] [-t DAYS]
       -i Cleanup all image files  
       -o Cleanup all other files  
       If none of the filters above are provided then it cleans all in the current directory.  
-
       Timing filter, if filter is not provided cleans up all requested files in the current directory.  
       -t=DAYS Number of days since the last time the file was accessed.
